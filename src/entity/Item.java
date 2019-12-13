@@ -15,7 +15,7 @@ public class Item {
 	private String imageUrl;
 	private String url;
 	private double distance;
-	
+
 	private Item(ItemBuilder builder) {
 		this.itemId = builder.itemId;
 		this.name = builder.name;
@@ -26,6 +26,7 @@ public class Item {
 		this.url = builder.url;
 		this.distance = builder.distance;
 	}
+
 	public JSONObject toJSONObject() {
 		JSONObject obj = new JSONObject();
 		try {
@@ -43,32 +44,38 @@ public class Item {
 		return obj;
 	}
 
-	
 	public String getItemId() {
 		return itemId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public double getRating() {
 		return rating;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public Set<String> getCategories() {
 		return categories;
 	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
+
 	public String getUrl() {
 		return url;
 	}
+
 	public double getDistance() {
 		return distance;
 	}
-	
+
 	public static class ItemBuilder {
 		private String itemId;
 		private String name;
@@ -83,39 +90,45 @@ public class Item {
 			this.itemId = itemId;
 			return this;
 		}
+
 		public ItemBuilder setName(String name) {
 			this.name = name;
 			return this;
 		}
+
 		public ItemBuilder setRating(double rating) {
 			this.rating = rating;
 			return this;
 		}
+
 		public ItemBuilder setAddress(String address) {
 			this.address = address;
 			return this;
 		}
+
 		public ItemBuilder setCategories(Set<String> categories) {
 			this.categories = categories;
 			return this;
 		}
+
 		public ItemBuilder setImageUrl(String imageUrl) {
 			this.imageUrl = imageUrl;
 			return this;
 		}
+
 		public ItemBuilder setUrl(String url) {
 			this.url = url;
 			return this;
 		}
+
 		public ItemBuilder setDistance(double distance) {
 			this.distance = distance;
 			return this;
 		}
+
 		public Item build() {
 			return new Item(this);
 		}
 	}
-
-
 
 }

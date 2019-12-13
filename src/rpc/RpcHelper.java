@@ -1,4 +1,5 @@
 package rpc;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -6,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 
 public class RpcHelper {
 	// Parses a JSONObject from http request.

@@ -42,7 +42,7 @@ public class ItemHistory extends HttpServlet {
 			throws ServletException, IOException {
 		String userId = request.getParameter("user_id");
 		JSONArray array = new JSONArray();
-		
+
 		DBConnection conn = DBConnectionFactory.getConnection();
 		try {
 			Set<Item> items = conn.getFavoriteItems(userId);
@@ -51,7 +51,7 @@ public class ItemHistory extends HttpServlet {
 				obj.append("favorite", true);
 				array.put(obj);
 			}
-			
+
 			RpcHelper.writeJsonArray(response, array);
 		} catch (JSONException e) {
 			e.printStackTrace();

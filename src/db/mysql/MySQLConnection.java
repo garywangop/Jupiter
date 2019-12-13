@@ -14,7 +14,6 @@ import entity.Item;
 import entity.Item.ItemBuilder;
 import external.TicketMasterClient;
 
-
 public class MySQLConnection implements DBConnection {
 	private Connection conn;
 
@@ -42,43 +41,43 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public void setFavoriteItems(String userId, List<String> itemIds) {
 		if (conn == null) {
-	  		 System.err.println("DB connection failed");
-	  		 return;
-	  	       }
-	  	
-	  	      try {
-	  		 String sql = "INSERT IGNORE INTO history(user_id, item_id) VALUES (?, ?)";
-	  		 PreparedStatement ps = conn.prepareStatement(sql);
-	  		 ps.setString(1, userId);
-	  		 for (String itemId : itemIds) {
-	  			 ps.setString(2, itemId);
-	  			 ps.execute();
-	  		 }
-	  	       } catch (Exception e) {
-	  		 e.printStackTrace();
-	  	       }
+			System.err.println("DB connection failed");
+			return;
+		}
+
+		try {
+			String sql = "INSERT IGNORE INTO history(user_id, item_id) VALUES (?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			for (String itemId : itemIds) {
+				ps.setString(2, itemId);
+				ps.execute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void unsetFavoriteItems(String userId, List<String> itemIds) {
 		if (conn == null) {
-	  		 System.err.println("DB connection failed");
-	  		 return;
-	  	       }
-	  	
-	  	      try {
-	  		 String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
-	  		 PreparedStatement ps = conn.prepareStatement(sql);
-	  		 ps.setString(1, userId);
-	  		 for (String itemId : itemIds) {
-	  			 ps.setString(2, itemId);
-	  			 ps.execute();
-	  		 }
-	  		
-	  	       } catch (Exception e) {
-	  		 e.printStackTrace();
-	  	       }
+			System.err.println("DB connection failed");
+			return;
+		}
+
+		try {
+			String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			for (String itemId : itemIds) {
+				ps.setString(2, itemId);
+				ps.execute();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -87,16 +86,16 @@ public class MySQLConnection implements DBConnection {
 		if (conn == null) {
 			return new HashSet<>();
 		}
-		
+
 		Set<String> favoriteItems = new HashSet<>();
-		
+
 		try {
 			String sql = "SELECT  item_id FROM history WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
-			
+
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String itemId = rs.getString("item_id");
 				favoriteItems.add(itemId);
@@ -104,7 +103,7 @@ public class MySQLConnection implements DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return favoriteItems;
 	}
 
@@ -113,20 +112,20 @@ public class MySQLConnection implements DBConnection {
 		if (conn == null) {
 			return new HashSet<>();
 		}
-		
+
 		Set<Item> favoriteItems = new HashSet<>();
 		Set<String> itemIds = getFavoriteItemIds(userId);
-		
+
 		try {
 			String sql = "SELECT * FROM items WHERE item_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			for (String itemId : itemIds) {
 				stmt.setString(1, itemId);
-				
+
 				ResultSet rs = stmt.executeQuery();
-				
+
 				ItemBuilder builder = new ItemBuilder();
-				
+
 				while (rs.next()) {
 					builder.setItemId(rs.getString("item_id"));
 					builder.setName(rs.getString("name"));
@@ -136,14 +135,14 @@ public class MySQLConnection implements DBConnection {
 					builder.setCategories(getCategories(itemId));
 					builder.setDistance(rs.getDouble("distance"));
 					builder.setRating(rs.getDouble("rating"));
-					
+
 					favoriteItems.add(builder.build());
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return favoriteItems;
 	}
 
@@ -219,7 +218,7 @@ public class MySQLConnection implements DBConnection {
 	public String getFullname(String userId) {
 		if (conn == null) {
 			return "";
-		}		
+		}
 		String name = "";
 		try {
 			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ? ";
@@ -254,7 +253,7 @@ public class MySQLConnection implements DBConnection {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean registerUser(String userId, String password, String firstname, String lastname) {
 		if (conn == null) {
@@ -275,6 +274,6 @@ public class MySQLConnection implements DBConnection {
 			e.printStackTrace();
 		}
 		return false;
-	}	
+	}
 
 }
